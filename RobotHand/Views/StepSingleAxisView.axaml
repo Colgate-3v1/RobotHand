@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RobotHand.ViewModels"
+             x:DataType="vm:StepSingleAxisViewModel"
+             x:Class="RobotHand.Views.StepSingleAxisView">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.Coordinate">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Width" Value="100"/>
+        </Style>
+    </UserControl.Styles>
+    <Viewbox>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J1"/>
+                <Button Content="+" CommandParameter="1"/>
+                <TextBlock Text="{Binding J1}" Margin="10"/>
+                <Button Content="-" CommandParameter="1"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J2"/>
+                <Button Content="+" CommandParameter="2"/>
+                <TextBlock Text="{Binding J2}" Margin="10"/>
+                <Button Content="-" CommandParameter="2"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J3"/>
+                <Button Content="+" CommandParameter="3"/>
+                <TextBlock Text="{Binding J3}" Margin="10"/>
+                <Button Content="-" CommandParameter="3"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J4"/>
+                <Button Content="+" CommandParameter="4"/>
+                <TextBlock Text="{Binding J4}" Margin="10"/>
+                <Button Content="-" CommandParameter="4"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J5"/>
+                <Button Content="+" CommandParameter="5"/>
+                <TextBlock Text="{Binding J5}" Margin="10"/>
+                <Button Content="-" CommandParameter="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Coordinate" Text="J6"/>
+                <Button Content="+" CommandParameter="6"/>
+                <TextBlock Text="{Binding J6}" Margin="10"/>
+                <Button Content="-" CommandParameter="6"/>
+            </StackPanel>
+            <!--<Button Content="Углы"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0 5"
+                    Command="{Binding GetCurrent}"/>-->
+
+        </StackPanel>
+    </Viewbox>
+</UserControl>
