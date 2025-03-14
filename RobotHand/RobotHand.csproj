@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <Reference Include="libfairino">
-      <HintPath>..\..\fairino-csharp-sdk-main\src\FRRobot\bin\Debug\libfairino.dll</HintPath>
+      <HintPath>..\..\RoboTest\fairino-csharp-sdk-main\src\FRRobot\bin\Debug\libfairino.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

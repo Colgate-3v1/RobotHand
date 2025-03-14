@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="libfairino">
-      <HintPath>..\..\fairino-csharp-sdk-main\src\FRRobot\bin\Debug\libfairino.dll</HintPath>
+      <HintPath>..\RobotHand\Lib\libfairino.dll</HintPath>
     </Reference>
   </ItemGroup>
 
