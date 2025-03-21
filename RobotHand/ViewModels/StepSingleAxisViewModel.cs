@@ -22,60 +22,60 @@ namespace RobotHand.ViewModels
 
         #region Свойства
 
-        private string _j1;
-        public string J1
+        private string _x;
+        public string X
         {
-            get => _j1;
-            set => this.RaiseAndSetIfChanged(ref _j1, value);
+            get => _x;
+            set => this.RaiseAndSetIfChanged(ref _x, value);
         }
 
-        private string _j2;
-        public string J2
+        private string _y;
+        public string Y
         {
-            get => _j2;
-            set => this.RaiseAndSetIfChanged(ref _j2, value);
+            get => _y;
+            set => this.RaiseAndSetIfChanged(ref _y, value);
         }
 
-        private string _j3;
-        public string J3
+        private string _z;
+        public string Z
         {
-            get => _j3;
-            set => this.RaiseAndSetIfChanged(ref _j3, value);
+            get => _z;
+            set => this.RaiseAndSetIfChanged(ref _z, value);
         }
 
-        private string _j4;
-        public string J4
+        private string _rx;
+        public string RX
         {
-            get => _j4;
-            set => this.RaiseAndSetIfChanged(ref _j4, value);
+            get => _rx;
+            set => this.RaiseAndSetIfChanged(ref _rx, value);
         }
 
-        private string _j5;
-        public string J5
+        private string _ry;
+        public string RY
         {
-            get => _j5;
-            set => this.RaiseAndSetIfChanged(ref _j5, value);
+            get => _ry;
+            set => this.RaiseAndSetIfChanged(ref _ry, value);
         }
 
-        private string _j6;
-        public string J6
+        private string _rz;
+        public string RZ
         {
-            get => _j6;
-            set => this.RaiseAndSetIfChanged(ref _j6, value);
+            get => _rz;
+            set => this.RaiseAndSetIfChanged(ref _rz, value);
         }
 
         #endregion
 
-        public async void PositiveStepCurrentJoint(string jointName)
+        public async void PositiveStepCurrentAxis(string axisName)
         {
-            var num = Convert.ToByte(jointName);
-            _robotService.StartSteps(0, num, 1, 20, 30, 30);
+            var num = Convert.ToByte(axisName);
+            _robotService.StartSteps(2, num, 1, 20, 30, 30);
         }
         
-        public void NegativeStepCurrentJoint(string jointName)
+        public void NegativeStepCurrentAxis(string axisName)
         {
-            var num = Convert.ToByte(jointName);
-            _robotService.StartSteps(0, num, 0, 20, 30, 30);
+            var num = Convert.ToByte(axisName);
+            _robotService.StartSteps(2, num, 0, 20, 30, 30);
         }
 
         public void StopMove()
@@ -85,15 +85,14 @@ namespace RobotHand.ViewModels
 
         public void GetCurrent(object o)
         {
-            var j = _robotService.GetJoint();
+            var pos = _robotService.GetPosition();
 
-            J1 = j.jPos[0].ToString();
-            J2 = j.jPos[1].ToString();
-            J3 = j.jPos[2].ToString();
-            J4 = j.jPos[3].ToString();
-            J5 = j.jPos[4].ToString();
-            J6 = j.jPos[5].ToString();
-
+            X = pos.tran.x.ToString();
+            Y = pos.tran.y.ToString();
+            Z = pos.tran.z.ToString();
+            RX = pos.rpy.rx.ToString();
+            RY = pos.rpy.ry.ToString();
+            RZ = pos.rpy.rz.ToString();
         }
     }
 }

@@ -41,6 +41,7 @@ namespace RobotHand
             container.Register<StepViewModel>(Reuse.Singleton);
             container.Register<MultiAxisLinkageViewModel>(Reuse.Singleton);
             container.Register<StepSingleAxisViewModel>(Reuse.Singleton);
+            container.Register<StepSingleJointViewModel>(Reuse.Singleton);
 
 
             var resolver = new DryIocDependencyResolver(container);

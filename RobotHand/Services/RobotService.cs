@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RobotHand.Services
@@ -33,12 +34,17 @@ namespace RobotHand.Services
         private Robot robot;
         private ROBOT_STATE_PKG robotState;
         private string _pathLog = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Amplituda", "Robot");
+        private Timer _timerA;
+        private Timer _timerB;
 
         public static RobotService Instance { get; private set; }
 
         public RobotService() {
             Instance = this;
             Init();
+
+            _timerA = new Timer(CheckAButtonPhysical, null, 0, 1000);
+            _timerB = new Timer(CheckBButtonPhysical, null, 0, 1000);
         }
 
         #region Свойства
@@ -109,17 +115,41 @@ namespace RobotHand.Services
         }
 
 
-        public void GetPosition()
+        public DescPose GetPosition()
         {
             DescPose pos = new DescPose();
             robot.GetActualTCPPose(1, ref pos);
+            return pos;
         }
         
         public JointPos GetJoint()
         {
             JointPos pos = new JointPos(0,0,0,0,0,0);
-            Debug.WriteLine("Curr   " + robot.GetActualJointPosDegree(1, ref pos));
+            robot.GetActualJointPosDegree(1, ref pos);
+            //Debug.WriteLine("Curr   " + robot.GetActualJointPosDegree(1, ref pos));
             return pos;
+        }
+
+        public void CheckAButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(0, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("A button");
+                StartSteps(1, 3, 0, 20, 30, 30);
+            }
+        }
+
+        public void CheckBButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(1, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("B button");
+                StartSteps(0, 3, 1, 20, 30, 30);
+            }
         }
     }
 }

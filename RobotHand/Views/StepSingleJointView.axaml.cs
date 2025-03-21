@@ -8,11 +8,11 @@ using System.Collections.Generic;
 
 namespace RobotHand.Views;
 
-public partial class StepSingleAxisView : UserControl
+public partial class StepSingleJointView : UserControl
 {
     private Button j1;
 
-    public StepSingleAxisView()
+    public StepSingleJointView()
     {
         InitializeComponent();
         var c = GetAllButtons();
@@ -27,7 +27,7 @@ public partial class StepSingleAxisView : UserControl
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (DataContext is StepSingleAxisViewModel vm)
+        if (DataContext is StepSingleJointViewModel vm)
         {
             vm.StopMove();
         }
@@ -57,12 +57,12 @@ public partial class StepSingleAxisView : UserControl
     private void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var button = (Button)sender;
-        if (DataContext is StepSingleAxisViewModel vm)
+        if (DataContext is StepSingleJointViewModel vm)
         {
             if (button.Content.ToString() == "+")
-                vm.PositiveStepCurrentAxis(button.CommandParameter.ToString());
+                vm.PositiveStepCurrentJoint(button.CommandParameter.ToString());
             else
-                vm.NegativeStepCurrentAxis(button.CommandParameter.ToString());
+                vm.NegativeStepCurrentJoint(button.CommandParameter.ToString());
         }
     }
 }

@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="using:RobotHand.ViewModels"
-             x:DataType="vm:StepSingleAxisViewModel"
-             x:Class="RobotHand.Views.StepSingleAxisView">
+             x:DataType="vm:StepSingleJointViewModel"
+             x:Class="RobotHand.Views.StepSingleJointView">
     <UserControl.Styles>
         <Style Selector="TextBlock.Coordinate">
             <Setter Property="Width" Value="50"/>
@@ -20,39 +20,39 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="X"/>
+                <TextBlock Classes="Coordinate" Text="J1"/>
                 <Button Content="+" CommandParameter="1"/>
-                <TextBlock Text="{Binding X}" Margin="10"/>
+                <TextBlock Text="{Binding J1}" Margin="10"/>
                 <Button Content="-" CommandParameter="1"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="Y"/>
+                <TextBlock Classes="Coordinate" Text="J2"/>
                 <Button Content="+" CommandParameter="2"/>
-                <TextBlock Text="{Binding Y}" Margin="10"/>
+                <TextBlock Text="{Binding J2}" Margin="10"/>
                 <Button Content="-" CommandParameter="2"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="Z"/>
+                <TextBlock Classes="Coordinate" Text="J3"/>
                 <Button Content="+" CommandParameter="3"/>
-                <TextBlock Text="{Binding Z}" Margin="10"/>
+                <TextBlock Text="{Binding J3}" Margin="10"/>
                 <Button Content="-" CommandParameter="3"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="RX"/>
+                <TextBlock Classes="Coordinate" Text="J4"/>
                 <Button Content="+" CommandParameter="4"/>
-                <TextBlock Text="{Binding RX}" Margin="10"/>
+                <TextBlock Text="{Binding J4}" Margin="10"/>
                 <Button Content="-" CommandParameter="4"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="RY"/>
+                <TextBlock Classes="Coordinate" Text="J5"/>
                 <Button Content="+" CommandParameter="5"/>
-                <TextBlock Text="{Binding RY}" Margin="10"/>
+                <TextBlock Text="{Binding J5}" Margin="10"/>
                 <Button Content="-" CommandParameter="5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Coordinate" Text="RZ"/>
+                <TextBlock Classes="Coordinate" Text="J6"/>
                 <Button Content="+" CommandParameter="6"/>
-                <TextBlock Text="{Binding RZ}" Margin="10"/>
+                <TextBlock Text="{Binding J6}" Margin="10"/>
                 <Button Content="-" CommandParameter="6"/>
             </StackPanel>
             <!--<Button Content="Углы"

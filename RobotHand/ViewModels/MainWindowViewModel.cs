@@ -17,7 +17,7 @@ namespace RobotHand.ViewModels
             //_robotService.Init();
 
             _navigationService.PageChanged += OnPageChanged;
-            _navigationService.NavigateTo<StepSingleAxisViewModel>();
+            _navigationService.NavigateTo<StepSingleJointViewModel>();
         }
 
         #region Свойства
@@ -41,7 +41,7 @@ namespace RobotHand.ViewModels
 
         public void NavigateStepSingle()
         {
-            _navigationService.NavigateTo<StepSingleAxisViewModel>();
+            _navigationService.NavigateTo<StepSingleJointViewModel>();
         }
 
         private void OnPageChanged(object? sender, ViewModelBase e)
