@@ -34,8 +34,11 @@ namespace RobotHand.Services
         private Robot robot;
         private ROBOT_STATE_PKG robotState;
         private string _pathLog = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Amplituda", "Robot");
-        private Timer _timerA;
-        private Timer _timerB;
+
+        private Timer _timerDI;
+        private Timer _timerX;
+        private Timer _timerY;
+        private Timer _timerZ;
 
         public static RobotService Instance { get; private set; }
 
@@ -43,8 +46,10 @@ namespace RobotHand.Services
             Instance = this;
             Init();
 
-            _timerA = new Timer(CheckAButtonPhysical, null, 0, 1000);
-            _timerB = new Timer(CheckBButtonPhysical, null, 0, 1000);
+            _timerDI = new Timer(CheckDI, null, 0, 1000);
+            //_timerX = new Timer(CheckPositiveXButtonPhysical, null, 0, 1000);
+            //_timerY = new Timer(CheckPositiveYButtonPhysical, null, 0, 1000);
+            //_timerZ = new Timer(CheckPositiveZButtonPhysical, null, 0, 1000);
         }
 
         #region Свойства
@@ -62,6 +67,7 @@ namespace RobotHand.Services
             robot.LoggerInit(FrLogType.BUFFER, FrLogLevel.INFO, _pathLog, 5, 5);
             robot.SetLoggerLevel(FrLogLevel.INFO);
             robot.RobotEnable(1);
+            robot.SetSpeed(80);
             //JointPos jointPos = new JointPos();
             //robot.GetActualJointPosDegree(0, ref jointPos);
             //CurrentJointPos = jointPos;
@@ -130,25 +136,130 @@ namespace RobotHand.Services
             return pos;
         }
 
-        public void CheckAButtonPhysical(object o)
+        public bool buttonWorking = false;
+        public byte LevelXPos = 0;
+        public byte LevelXNeg = 0;
+
+        public void CheckDI(object o)
+        {
+            robot.GetDI(0, 0, ref LevelXPos);
+            robot.GetDI(1, 0, ref LevelXNeg);
+
+            if (buttonWorking)
+            {
+                if (LevelXPos == 0 & LevelXNeg == 0)
+                {
+                    Debug.WriteLine("Stop in DI");
+                    StopSteps();
+                    buttonWorking = false;
+                }
+            }
+            else
+            {
+                if (LevelXPos == 1 & LevelXNeg == 1)
+                {
+                    StartSteps(2, 1, 1, 100, 100, 1500);
+                    buttonWorking = true;
+                } else
+                if (LevelXPos == 1)
+                {
+                    StartSteps(2, 1, 1, 100, 100, 1500);
+                    buttonWorking = true;
+                }
+                else if (LevelXNeg == 1)
+                {
+                    StartSteps(2, 1, 0, 100, 100, 1500);
+                    buttonWorking = true;
+                }
+            }
+        }
+
+
+
+
+
+        private bool enableCommand = true;
+        public void CheckPositiveXButtonPhysical(object o)
         {
             byte level = 0;
             robot.GetDI(0, 0, ref level);
             if (level == 1)
             {
-                Debug.WriteLine("A button");
-                StartSteps(1, 3, 0, 20, 30, 30);
+                Debug.WriteLine("Pos x button");
+                if (enableCommand)
+                {
+                    StartSteps(2, 1, 1, 20, 30, 2000);
+                    enableCommand = false;
+                }
+            }
+            else
+            {
+                StopSteps();
+                enableCommand = true;
             }
         }
 
-        public void CheckBButtonPhysical(object o)
+        public void CheckNegativeXButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(0, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("Pos x button");
+                if (enableCommand)
+                {
+                    StartSteps(2, 1, 0, 20, 30, 100);
+                    enableCommand = false;
+                }
+            }
+            else
+            {
+                StopSteps();
+                enableCommand = true;
+            }
+        }
+
+        public void CheckPositiveYButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(0, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("Pos y button");
+                StartSteps(2, 2, 1, 20, 30, 100);
+            }
+        }
+
+        public void CheckNegativeYButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(0, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("Neg y button");
+                StartSteps(2, 2, 0, 20, 30, 100);
+            }
+        }
+
+        public void CheckPositiveZButtonPhysical(object o)
+        {
+            byte level = 0;
+            robot.GetDI(0, 0, ref level);
+            if (level == 1)
+            {
+                Debug.WriteLine("Pos z button");
+                StartSteps(2, 3, 1, 20, 30, 100);
+            }
+        }
+
+        public void CheckNegativeZButtonPhysical(object o)
         {
             byte level = 0;
             robot.GetDI(1, 0, ref level);
             if (level == 1)
             {
-                Debug.WriteLine("B button");
-                StartSteps(0, 3, 1, 20, 30, 30);
+                Debug.WriteLine("Neg z button");
+                StartSteps(2, 3, 0, 20, 30, 100);
             }
         }
     }

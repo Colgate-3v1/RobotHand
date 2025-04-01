@@ -36,7 +36,7 @@ namespace RobotHand.ViewModels
 
         public void NavigateMultiAxis()
         {
-            _navigationService.NavigateTo<MultiAxisLinkageViewModel>();
+            _navigationService.NavigateTo<StepSingleAxisViewModel>();
         }
 
         public void NavigateStepSingle()
