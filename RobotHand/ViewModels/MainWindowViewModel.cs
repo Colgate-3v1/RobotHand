@@ -27,6 +27,21 @@ namespace RobotHand.ViewModels
             get => _currentPage;
             private set => this.RaiseAndSetIfChanged(ref _currentPage, value);
         }
+
+        private string _direction = "положительное";
+        public string Direction
+        {
+            get => _direction;
+            set => this.RaiseAndSetIfChanged(ref _direction, value);
+        }
+
+        private string _mode = "движение по осям";
+        public string Mode
+        {
+            get => _mode;
+            set => this.RaiseAndSetIfChanged(ref _mode, value);
+        }
+
         #endregion
 
         public void NavigateStep()

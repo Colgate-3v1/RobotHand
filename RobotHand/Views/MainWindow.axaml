@@ -15,8 +15,8 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ColumnDefinitions="Auto, *">
-        <StackPanel Width="200" HorizontalAlignment="Center"
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ColumnDefinitions="Auto, *" RowDefinitions="Auto, *">
+        <StackPanel Width="200" HorizontalAlignment="Center" Grid.RowSpan="2"
                 VerticalAlignment="Center">
             <Button Content="Steps"
                     Margin="10"
@@ -28,7 +28,14 @@
                     Margin="10"
                     Command="{Binding NavigateStepSingle}"/>
         </StackPanel>
+        <Grid Grid.Column="1" RowDefinitions="Auto, *, *" ColumnDefinitions="*, *">
+            <TextBlock Text="Пульт управления" FontSize="25"/>
+            <TextBlock Grid.Row="1" Text="Режим: "/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding }"/>
+            <TextBlock Grid.Row="2" Text="{Binding }"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding }"/>
+        </Grid>
         <ContentControl
-            Grid.Column="1" Content="{Binding CurrentPage}"/>
+            Grid.Column="1" Grid.Row="1" Content="{Binding CurrentPage}"/>
     </Grid>
 </Window>
