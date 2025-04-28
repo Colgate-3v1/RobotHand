@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using RobotHand.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace RobotHand.ViewModels
@@ -17,6 +18,8 @@ namespace RobotHand.ViewModels
             //_robotService.Init();
 
             _navigationService.PageChanged += OnPageChanged;
+            _robotService.OnDirectionChanged += OnDirectionChanged;
+            _robotService.OnModeChanged += OnModeChanged;
             _navigationService.NavigateTo<StepSingleJointViewModel>();
         }
 
@@ -57,6 +60,32 @@ namespace RobotHand.ViewModels
         public void NavigateStepSingle()
         {
             _navigationService.NavigateTo<StepSingleJointViewModel>();
+        }
+
+        public async void Reconnect()
+        {
+            await Task.Run(() =>
+            {
+                _robotService.Disconnect();
+                _robotService.Init();
+            });
+        }
+        
+        public void ResetAllErrors()
+        {
+            _robotService.ResetAllErrors();
+        }
+
+        private void OnModeChanged(object? sender, bool e)
+        {
+            if (e) Mode = "движение углов Эйлера";
+            else Mode = "движение по осям";
+        }
+
+        private void OnDirectionChanged(object? sender, bool e)
+        {
+            if (e) Direction = "отрицательное";
+            else Direction = "положительное";
         }
 
         private void OnPageChanged(object? sender, ViewModelBase e)

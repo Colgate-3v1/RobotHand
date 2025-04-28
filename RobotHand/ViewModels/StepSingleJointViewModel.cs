@@ -69,13 +69,13 @@ namespace RobotHand.ViewModels
         public async void PositiveStepCurrentJoint(string jointName)
         {
             var num = Convert.ToByte(jointName);
-            _robotService.StartSteps(0, num, 1, 20, 30, 30);
+            _robotService.StartSteps(0, num, 1, 50, 100, 30);
         }
         
         public void NegativeStepCurrentJoint(string jointName)
         {
             var num = Convert.ToByte(jointName);
-            _robotService.StartSteps(0, num, 0, 20, 30, 30);
+            _robotService.StartSteps(0, num, 0, 50, 100, 30);
         }
 
         public void StopMove()

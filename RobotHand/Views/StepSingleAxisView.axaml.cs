@@ -54,7 +54,7 @@ public partial class StepSingleAxisView : UserControl
         }
     }
 
-    private void PointerPressed(object? sender, PointerPressedEventArgs e)
+    private async void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var button = (Button)sender;
         if (DataContext is StepSingleAxisViewModel vm)

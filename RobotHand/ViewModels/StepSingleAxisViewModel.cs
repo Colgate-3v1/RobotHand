@@ -69,13 +69,13 @@ namespace RobotHand.ViewModels
         public async void PositiveStepCurrentAxis(string axisName)
         {
             var num = Convert.ToByte(axisName);
-            _robotService.StartSteps(2, num, 1, 20, 30, 30);
+            _robotService.StartSteps(2, num, 1, 50, 100, 1000);
         }
         
         public void NegativeStepCurrentAxis(string axisName)
         {
             var num = Convert.ToByte(axisName);
-            _robotService.StartSteps(2, num, 0, 20, 30, 30);
+            _robotService.StartSteps(2, num, 0, 50, 100, 1000);
         }
 
         public void StopMove()

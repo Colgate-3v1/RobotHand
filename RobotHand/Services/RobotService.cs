@@ -35,8 +35,8 @@ namespace RobotHand.Services
         private ROBOT_STATE_PKG robotState;
         private string _pathLog = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Amplituda", "Robot");
 
-        public event EventHandler OnModeChanged;
-        public event EventHandler OnDirectionChanged;
+        public event EventHandler<bool> OnModeChanged;
+        public event EventHandler<bool> OnDirectionChanged;
 
         private Timer _timerDI;
         private Timer _timerX;
@@ -49,6 +49,7 @@ namespace RobotHand.Services
             Instance = this;
             Init();
 
+
             //_timerX = new Timer(CheckPositiveXButtonPhysical, null, 0, 1000);
             //_timerY = new Timer(CheckPositiveYButtonPhysical, null, 0, 1000);
             //_timerZ = new Timer(CheckPositiveZButtonPhysical, null, 0, 1000);
@@ -57,6 +58,21 @@ namespace RobotHand.Services
         #region Свойства
         public JointPos CurrentJointPos { get; set; } = new JointPos();
         public DescPose CurrentDescPose { get; set; } = new DescPose();
+
+        private int _connect = 0;
+        private bool _connecting = false;
+        public int Connect
+        {
+            get => _connect;
+            set
+            {
+                _connect = value;
+                //if (value == 14)
+                //{
+                //    robot.ResetAllError();
+                //}
+            }
+        }
         #endregion
 
 
@@ -70,7 +86,11 @@ namespace RobotHand.Services
             robot.SetLoggerLevel(FrLogLevel.INFO);
             robot.RobotEnable(1);
             robot.SetSpeed(80);
-            //_timerDI = new Timer(CheckDI, null, 0, 1000);
+            robot.SetReconnectParam(true, 200, 1000);
+
+            _connecting = false;
+            _timerDI = new Timer(CheckDI, null, 0, 500);
+            
             //JointPos jointPos = new JointPos();
             //robot.GetActualJointPosDegree(0, ref jointPos);
             //CurrentJointPos = jointPos;
@@ -78,20 +98,28 @@ namespace RobotHand.Services
 
         public void Disconnect()
         {
+            _timerDI.Change(Timeout.Infinite, Timeout.Infinite);
             robot.CloseRPC();
-            robot = null;
+            //robot = null;
         }
+
+        public void ResetAllErrors()
+        {
+            //Debug.WriteLine("Reset errors " + robot.ResetAllError());
+            robot.ResetAllError();
+        }
+
 
         // StartSteps - используется вдоль одной оси или одного сустава по шагам на 1 секунду
         public void StartSteps(byte refType, byte nb, byte dir, float vel, float acc, float max_dis)
         {
-            robot.SetSpeed(20);
-            robot.StartJOG(refType, nb, dir, vel, acc, max_dis);
+            robot.SetSpeed(35);
+            Connect = robot.StartJOG(refType, nb, dir, vel, acc, max_dis);
         }
         
         public void StopSteps()
         {
-            robot.ImmStopJOG();
+            Connect = robot.ImmStopJOG();
         }
 
         // для перемещения робота в пространстве суставов
@@ -125,16 +153,32 @@ namespace RobotHand.Services
         public DescPose GetPosition()
         {
             DescPose pos = new DescPose();
-            robot.GetActualTCPPose(1, ref pos);
-            return pos;
+            try
+            {
+                Connect = robot.GetActualTCPPose(1, ref pos);
+                return pos;
+            }
+            catch
+            {
+                Debug.WriteLine("Идет переподключение");
+                return pos;
+            }
         }
         
         public JointPos GetJoint()
         {
-            JointPos pos = new JointPos(0,0,0,0,0,0);
-            robot.GetActualJointPosDegree(1, ref pos);
-            //Debug.WriteLine("Curr   " + robot.GetActualJointPosDegree(1, ref pos));
-            return pos;
+            JointPos pos = new JointPos(0, 0, 0, 0, 0, 0);
+            try
+            {
+                Connect = robot.GetActualJointPosDegree(1, ref pos);
+                //Debug.WriteLine("Curr   " + robot.GetActualJointPosDegree(1, ref pos));
+                return pos;
+            }
+            catch
+            {
+                Debug.WriteLine("Переподключение");
+                return pos;
+            }
         }
 
         public bool buttonWorking = false;
@@ -151,7 +195,7 @@ namespace RobotHand.Services
             set
             {
                 _mode = value;
-                OnModeChanged?.Invoke(this, EventArgs.Empty);
+                OnModeChanged?.Invoke(this, value);
             }
         }
 
@@ -162,18 +206,18 @@ namespace RobotHand.Services
             set
             {
                 _direction = value;
-                OnDirectionChanged?.Invoke(this, EventArgs.Empty);
+                OnDirectionChanged?.Invoke(this, value);
             }
         }
 
 
         public void CheckDI(object o)
         {
-            robot.GetDI(0, 0, ref LevelXAndRX);
-            robot.GetDI(1, 0, ref LevelYAndRY);
-            robot.GetDI(2, 0, ref LevelZAndRZ);
-            robot.GetDI(3, 0, ref LevelMode);
-            robot.GetDI(4, 0, ref LevelDirection);
+            Connect = robot.GetDI(0, 1, ref LevelXAndRX); // КНОПКА С
+            Connect = robot.GetDI(1, 1, ref LevelYAndRY); // КНОПКА B
+            Connect = robot.GetDI(2, 1, ref LevelZAndRZ); // КНОПКА E
+            Connect = robot.GetDI(3, 1, ref LevelMode); //  КНОПКА A
+            Connect = robot.GetDI(4, 1, ref LevelDirection); // КНОПКА D
 
             if (buttonWorking)
             {
@@ -198,17 +242,17 @@ namespace RobotHand.Services
                 else if (LevelXAndRX == 1)
                 {
                     var mode = Mode ? 4 : 1;
-                    StartSteps(2, (byte)(Mode ? 4 : 1), Convert.ToByte(Direction), 100, 100, 1500);
+                    StartSteps(2, (byte)(Mode ? 4 : 1), Convert.ToByte(!Direction), 50, 100, 1500);
                     buttonWorking = true;
                 }
                 else if (LevelYAndRY == 1)
                 {
-                    StartSteps(2, (byte)(Mode ? 5 : 2), Convert.ToByte(Direction), 100, 100, 1500);
+                    StartSteps(2, (byte)(Mode ? 5 : 2), Convert.ToByte(!Direction), 50, 100, 1500);
                     buttonWorking = true;
                 }
                 else if (LevelZAndRZ == 1)
                 {
-                    StartSteps(2, (byte)(Mode ? 6 : 3), Convert.ToByte(Direction), 100, 100, 1500);
+                    StartSteps(2, (byte)(Mode ? 6 : 3), Convert.ToByte(!Direction), 50, 100, 1500);
                     buttonWorking = true;
                 }
             }

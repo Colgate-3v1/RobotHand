@@ -16,24 +16,32 @@
     </Design.DataContext>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ColumnDefinitions="Auto, *" RowDefinitions="Auto, *">
-        <StackPanel Width="200" HorizontalAlignment="Center" Grid.RowSpan="2"
+        <StackPanel Width="200" HorizontalAlignment="Center" Grid.Row="1"
                 VerticalAlignment="Center">
-            <Button Content="Steps"
+            <!--<Button Content="Steps"
                     Margin="10"
-                    Command="{Binding NavigateStep}"/>
-            <Button Content="MultiAxis"
+                    Command="{Binding NavigateStep}"/>-->
+            <Button Content="Движение в декартовой системе" Width="200"
+                    TextBlock.TextWrapping="WrapWithOverflow"
                     Margin="10"
                     Command="{Binding NavigateMultiAxis}"/>
-            <Button Content="Движение по суставам"
+            <Button Content="Движение по суставам" Width="200"
                     Margin="10"
                     Command="{Binding NavigateStepSingle}"/>
+            <Button Content="Переподключение" Width="200"
+                    Margin="10"
+                    Command="{Binding Reconnect}"/>
+            <Button Content="Очистить ошибки" Width="200"
+                    Margin="10"
+                    Command="{Binding ResetAllErrors}"/>
         </StackPanel>
-        <Grid Grid.Column="1" RowDefinitions="Auto, *, *" ColumnDefinitions="*, *">
-            <TextBlock Text="Пульт управления" FontSize="25"/>
-            <TextBlock Grid.Row="1" Text="Режим: "/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding }"/>
-            <TextBlock Grid.Row="2" Text="{Binding }"/>
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding }"/>
+        <Grid Grid.ColumnSpan="2" RowDefinitions="Auto, *, *" ColumnDefinitions="Auto, *"
+                Background="AliceBlue">
+            <TextBlock Text="Пульт управления" FontSize="30"/>
+            <TextBlock Grid.Row="1" Text="Режим: " FontSize="18"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Mode}" FontSize="18"/>
+            <TextBlock Grid.Row="2" Text="Направление" FontSize="18"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Direction}" FontSize="18"/>
         </Grid>
         <ContentControl
             Grid.Column="1" Grid.Row="1" Content="{Binding CurrentPage}"/>
