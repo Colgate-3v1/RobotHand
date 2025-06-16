@@ -34,6 +34,7 @@ namespace RobotHand
             //Регистрация сервисов
             container.Register<NavigationService>(Reuse.Singleton);
             container.Register<RobotService>(Reuse.Singleton);
+            container.Register<KeyboardEventService>(Reuse.Singleton);
 
 
             //Регистрация ViewModels

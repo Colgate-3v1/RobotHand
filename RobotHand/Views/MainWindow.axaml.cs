@@ -1,5 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 using RobotHand.Services;
+using System;
 
 namespace RobotHand.Views
 {
@@ -9,6 +11,9 @@ namespace RobotHand.Views
         {
             InitializeComponent();
             Closed += MainWindow_Closed;
+
+            KeyDown += KeyboardEventService.Instance.OnKeyDown;
+            KeyUp += KeyboardEventService.Instance.OnKeyUp;
         }
 
         private void MainWindow_Closed(object? sender, System.EventArgs e)

@@ -9,11 +9,15 @@ namespace RobotHand.ViewModels
     {
         private readonly NavigationService _navigationService;
         private readonly RobotService _robotService;
+        private readonly KeyboardEventService _keyboardEventService;
 
-        public MainWindowViewModel(NavigationService navigationService, RobotService robotService)
+        public MainWindowViewModel(NavigationService navigationService,
+                                   RobotService robotService,
+                                   KeyboardEventService keyboardEventService)
         {
             _navigationService = navigationService;
             _robotService = robotService;
+            _keyboardEventService = keyboardEventService;
 
             //_robotService.Init();
 

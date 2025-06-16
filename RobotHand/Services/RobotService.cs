@@ -81,7 +81,7 @@ namespace RobotHand.Services
         {
             robot = new Robot();
             robotState = new ROBOT_STATE_PKG();
-            robot.RPC("192.168.58.2");
+            robot.RPC("192.168.57.2");
             robot.LoggerInit(FrLogType.BUFFER, FrLogLevel.INFO, _pathLog, 5, 5);
             robot.SetLoggerLevel(FrLogLevel.INFO);
             robot.RobotEnable(1);
@@ -179,6 +179,15 @@ namespace RobotHand.Services
                 Debug.WriteLine("Переподключение");
                 return pos;
             }
+        }
+
+        public static string PositionToString(DescPose descPose)
+        {
+            return $"x = {Math.Round(descPose.tran.x, 2)}\n" +
+                $"y = {Math.Round(descPose.tran.y, 2)}\n" +
+                $"z = {Math.Round(descPose.tran.z, 2)}\n" +
+                $"rx = {Math.Round(descPose.rpy.rx, 2)}\n" +
+                $"ry = {Math.Round(descPose.rpy.rz, 2)}";
         }
 
         public bool buttonWorking = false;
