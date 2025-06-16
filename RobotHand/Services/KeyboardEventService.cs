@@ -61,6 +61,7 @@ namespace RobotHand.Services
                     _robotService.StartSteps(2, (byte)(Mode ? 4 : 1), Direction, 50, 100, 1000);
                     break;
                 case Key.S:
+                    Direction = (byte)(Direction == 0 ? 1 : 0);
                     break;
                 case Key.D:
                     _robotService.StartSteps(2, (byte)(Mode ? 6 : 3), Direction, 50, 100, 1000);
@@ -69,7 +70,6 @@ namespace RobotHand.Services
                     Mode = !Mode;
                     break;
                 case Key.Space:
-                    Direction = (byte)(Direction == 0 ? 1 : 0);
                     break;
             }
         }
