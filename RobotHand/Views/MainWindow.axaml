@@ -31,6 +31,9 @@
             <Button Content="Переподключение" Width="200"
                     Margin="10"
                     Command="{Binding Reconnect}"/>
+            <Button Content="Видео" Width="200"
+                    Margin="10"
+                    Command="{Binding NavigateVideo}"/>
             <Button Content="Очистить ошибки" Width="200"
                     Margin="10"
                     Command="{Binding ResetAllErrors}"/>

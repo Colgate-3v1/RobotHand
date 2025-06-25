@@ -66,6 +66,11 @@ namespace RobotHand.ViewModels
             _navigationService.NavigateTo<StepSingleJointViewModel>();
         }
 
+        public void NavigateVideo()
+        {
+            _navigationService.NavigateTo<VideoViewModel>();
+        }
+
         public async void Reconnect()
         {
             await Task.Run(() =>

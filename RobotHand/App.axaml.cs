@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using DryIoc;
 using ReactiveUI;
 using RobotHand.Interfaces;
+using RobotHand.Models;
 using RobotHand.Services;
 using RobotHand.ViewModels;
 using RobotHand.Views;
@@ -31,6 +32,9 @@ namespace RobotHand
             container.Register<MainWindow>(Reuse.Singleton);
             container.Register<ViewModelFactory>(Reuse.Singleton);
 
+            //Регистрация модели
+            container.Register<CaptureStream>(Reuse.Singleton);
+
             //Регистрация сервисов
             container.Register<NavigationService>(Reuse.Singleton);
             container.Register<RobotService>(Reuse.Singleton);
@@ -43,6 +47,7 @@ namespace RobotHand
             container.Register<MultiAxisLinkageViewModel>(Reuse.Singleton);
             container.Register<StepSingleAxisViewModel>(Reuse.Singleton);
             container.Register<StepSingleJointViewModel>(Reuse.Singleton);
+            container.Register<VideoViewModel>(Reuse.Singleton);
 
 
             var resolver = new DryIocDependencyResolver(container);

@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:RobotHand.ViewModels"
+             x:Class="RobotHand.Views.VideoView"
+             x:DataType="vm:VideoViewModel">
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="10 20"/>
+        </Style>
+    </UserControl.Styles>
+    <Grid>
+        <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+              RowDefinitions="*, Auto">
+            <Viewbox>
+                <Border BorderThickness="10" BorderBrush="Blue" Height="805" Width="805">
+                    <ScrollViewer Name="scroll" Height="800" Width="800"
+                              HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                        <Canvas Name="canvas" Background="Black" Height="800" Width="800">
+
+                            <Image Name="image_e" Stretch="Fill" Source="{Binding BitmapPollution}"
+                                       Height="800" Width="800" ZIndex="10">
+                                <Image.GestureRecognizers>
+                                    <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                            <Image Name="image" Height="800" Width="800" Stretch="Fill" Source="{Binding Bitmap}" ZIndex="5">
+                                <Image.GestureRecognizers>
+                                    <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                        </Canvas>
+                    </ScrollViewer>
+                </Border>
+            </Viewbox>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Click="Reset">Сброс приближения</Button>
+                <Button Click="Rotate0">Исходное положение</Button>
+                <Button Click="Rotate90">Поворот на 90</Button>
+                <Button Click="Rotate180">Поворот на 180</Button>
+                <Button Click="Rotate270">Поворот на 270</Button>
+                <!--<Button Command="{Binding Start}">Start</Button>
+                <Button Command="{Binding Stop}">Stop</Button>-->
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

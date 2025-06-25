@@ -85,10 +85,13 @@ namespace RobotHand.Services
             robot.LoggerInit(FrLogType.BUFFER, FrLogLevel.INFO, _pathLog, 5, 5);
             robot.SetLoggerLevel(FrLogLevel.INFO);
             robot.RobotEnable(1);
-            robot.SetSpeed(80);
+            robot.SetSpeed(30);
             robot.SetReconnectParam(true, 200, 1000);
 
             _connecting = false;
+
+            
+
             _timerDI = new Timer(CheckDI, null, 0, 500);
             
             //JointPos jointPos = new JointPos();
@@ -266,5 +269,31 @@ namespace RobotHand.Services
                 }
             }
         }
+
+        #region 
+
+        public void CollisionStrategy()
+        {
+            // https://fairino-doc-en.readthedocs.io/latest/CobotsManual/base.html#collision-rebound-mode
+            int[] safetyMargin = { 1, 1, 1, 1, 1, 1 };
+            robot.SetCollisionStrategy(1, 1000, 75, safetyMargin);
+        }
+
+        public void CheckJoint()
+        {
+            var joint = GetJoint();
+            if (joint.jPos[0] < 0 || joint.jPos[1] < 0 ||  joint.jPos[2] < 0
+                || joint.jPos[3] < 0 || joint.jPos[4] < 0 || joint.jPos[5] < 0)
+            {
+                StopSteps();
+            }
+        }
+
+        public void FT_Guard()
+        {
+            //robot.Acc
+        }
+
+        #endregion
     }
 }
