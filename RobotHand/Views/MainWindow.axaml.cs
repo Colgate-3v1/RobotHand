@@ -19,7 +19,9 @@ namespace RobotHand.Views
 
         private void MainWindow_Closed(object? sender, System.EventArgs e)
         {
-            CaptureStream.Instance.Stop();
+            RobotService.Instance.Disconnect();
+            if (CaptureStream.Instance != null)
+                CaptureStream.Instance.Stop();
             RobotService.Instance.Disconnect();
         }
     }

@@ -7,6 +7,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace RobotHand.Views;
 
@@ -35,11 +36,14 @@ public partial class VideoView : UserControl
         _image_e = this.FindControl<Image>("image_e");
         _scroll = this.FindControl<ScrollViewer>("scroll");
 
+        AddHandler(PointerPressedEvent, OnPointerPressed, handledEventsToo: true);
+        AddHandler(PointerReleasedEvent, OnPointerReleased, handledEventsToo: true);
+        AddHandler(PointerMovedEvent, OnPointerMoved, handledEventsToo: true);
 
         PointerMoved += OnPointerMoved;
         PointerWheelChanged += OnPointerWheelChanged;
-        PointerPressed += OnPointerPressed;
-        PointerReleased += OnPointerReleased;
+        //PointerPressed += OnPointerPressed;
+        //PointerReleased += OnPointerReleased;
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -88,8 +92,10 @@ public partial class VideoView : UserControl
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         var position = e.GetPosition(_canvas);
+        Log("pressed");
         if (_enableZoom)
         {
+            Log("pressed for zoom");
             point = position;
             isPressed = true;
             rectangle = new Rectangle()
@@ -133,6 +139,7 @@ public partial class VideoView : UserControl
                 // Установка высоты и ширины
                 rectangle.Width = Math.Abs(width);
                 rectangle.Height = Math.Abs(height);
+                Log($"ширина - {width};   высота - {height}");
             }
         }
         else
@@ -142,6 +149,7 @@ public partial class VideoView : UserControl
                 var draggingX = position.X / _canvas.Width * _scroll.ScrollBarMaximum.X;
                 var draggingY = position.Y / _canvas.Height * _scroll.ScrollBarMaximum.Y;
                 _scroll.Offset = new Vector(draggingX, draggingY);
+                Log($"scroll");
             }
         }
     }
@@ -158,6 +166,7 @@ public partial class VideoView : UserControl
         _image_e.Height = 800;
         _image_e.Width = 800;
         _enableZoom = true;
+        Log("Reset");
     }
 
     public void Rotate0(object sender, RoutedEventArgs e)
@@ -203,4 +212,17 @@ public partial class VideoView : UserControl
         _scroll.Offset = new Vector(deltaY / coifY * coifX, _scroll.ScrollBarMaximum.Y - deltaX / coifX * coifY);
         _currentRotate = 270;
     }
+
+    private readonly string log = "log.txt";
+
+    private void Log(string message)
+    {
+        try
+        {
+            using (StreamWriter streamWriter = new StreamWriter(log, true))
+            {
+                streamWriter.WriteLine($"{DateTime.Now}:   {message}");
+            }
+        }
+        catch { }
 }

@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
              xmlns:vm="using:RobotHand.ViewModels"
              x:Class="RobotHand.Views.VideoView"
              x:DataType="vm:VideoViewModel">
@@ -13,10 +13,9 @@
             <Setter Property="Margin" Value="10 20"/>
         </Style>
     </UserControl.Styles>
-    <Grid>
+    <Viewbox>
         <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
               RowDefinitions="*, Auto">
-            <Viewbox>
                 <Border BorderThickness="10" BorderBrush="Blue" Height="805" Width="805">
                     <ScrollViewer Name="scroll" Height="800" Width="800"
                               HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
@@ -38,7 +37,6 @@
                         </Canvas>
                     </ScrollViewer>
                 </Border>
-            </Viewbox>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button Click="Reset">Сброс приближения</Button>
                 <Button Click="Rotate0">Исходное положение</Button>
@@ -49,5 +47,5 @@
                 <Button Command="{Binding Stop}">Stop</Button>-->
             </StackPanel>
         </Grid>
-    </Grid>
+    </Viewbox>
 </UserControl>

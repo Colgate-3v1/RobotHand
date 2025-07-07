@@ -19,11 +19,6 @@ namespace RobotHand.Services
             Instance = this;
         }
 
-        public byte Direction { get; set; } = 0;
-
-        public bool Mode { get; set; } = false;
-
-
         public void OnKeyUp(object? sender, KeyEventArgs e)
         {
             var key = e.Key;
@@ -37,13 +32,34 @@ namespace RobotHand.Services
                     _robotService.StopSteps();
                     break;
                 case Key.S:
+                    _robotService.StopSteps();
                     break;
                 case Key.D:
                     _robotService.StopSteps();
                     break;
                 case Key.LeftCtrl:
+                    _robotService.StopSteps();
                     break;
-                case Key.Space:
+                case Key.LeftShift:
+                    _robotService.StopSteps();
+                    break;
+                case Key.Right:
+                    _robotService.StopSteps();
+                    break;
+                case Key.Left:
+                    _robotService.StopSteps();
+                    break;
+                case Key.Up:
+                    _robotService.StopSteps();
+                    break;
+                case Key.Down:
+                    _robotService.StopSteps();
+                    break;
+                case Key.RightShift:
+                    _robotService.StopSteps();
+                    break;
+                case Key.RightCtrl:
+                    _robotService.StopSteps();
                     break;
             }
         }
@@ -55,21 +71,40 @@ namespace RobotHand.Services
             switch (key)
             {
                 case Key.W:
-                    _robotService.StartSteps(2, (byte)(Mode ? 5 : 2), Direction, 50, 100, 1000);
+                    _robotService.StartSteps(2, 1, 0, 25, 100, 1000);
                     break;
                 case Key.A:
-                    _robotService.StartSteps(2, (byte)(Mode ? 4 : 1), Direction, 50, 100, 1000);
+                    _robotService.StartSteps(2, 2, 0, 25, 100, 1000);
                     break;
                 case Key.S:
-                    Direction = (byte)(Direction == 0 ? 1 : 0);
+                    _robotService.StartSteps(2, 1, 1, 25, 100, 1000);
                     break;
                 case Key.D:
-                    _robotService.StartSteps(2, (byte)(Mode ? 6 : 3), Direction, 50, 100, 1000);
+                    _robotService.StartSteps(2, 2, 1, 25, 100, 1000);
                     break;
                 case Key.LeftCtrl:
-                    Mode = !Mode;
+                    _robotService.StartSteps(2, 3, 0, 25, 100, 1000);
                     break;
-                case Key.Space:
+                case Key.LeftShift:
+                    _robotService.StartSteps(2, 3, 1, 25, 100, 1000);
+                    break;
+                case Key.Right:
+                    _robotService.StartSteps(2, 4, 0, 25, 100, 1000);
+                    break;
+                case Key.Left:
+                    _robotService.StartSteps(2, 4, 1, 25, 100, 1000);
+                    break;
+                case Key.Up:
+                    _robotService.StartSteps(2, 5, 0, 25, 100, 1000);
+                    break;
+                case Key.Down:
+                    _robotService.StartSteps(2, 5, 1, 25, 100, 1000);
+                    break;
+                case Key.RightShift:
+                    _robotService.StartSteps(2, 6, 0, 25, 100, 1000);
+                    break;
+                case Key.RightCtrl:
+                    _robotService.StartSteps(2, 6, 1, 25, 100, 1000);
                     break;
             }
         }
